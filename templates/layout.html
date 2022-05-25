@@ -34,19 +34,19 @@
                 <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">BLog</a>
+                        <a class="nav-link" href="{{ url_for('home') }}">BLog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
                     </li>
 
                 </ul>
                 <!-- Left links -->
                 <div class=" First_Visit ">
-                    <a href="#" class="">
+                    <a href="{{ url_for('registration') }}" class="">
                         Sign In
                     </a>
-                    <a href="#" class="m-3">
+                    <a href="{{ url_for('login') }}" class="m-3">
                         Log In
                     </a>
                 </div>
