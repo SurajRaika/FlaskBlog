@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<h3>New</h3>
+{% for post in posts %}
+
+<div class=" bg-light container-sm w-50 ms-5 m-3 border Index-Container">
+    <h5 class="d-inline  "> {{post.author}}</h5>
+    <h6 class=" ms-3 d-inline">{{post.date_posted}}</h6>
+    <h2 class="">{{post.title}}</h2>
+    <p>{{post.content}}</p>
+</div>
+
+{% endfor %}
+
+
+{% endblock content %}

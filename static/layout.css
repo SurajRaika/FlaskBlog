@@ -1,0 +1,19 @@
+*{
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+}
+.nav-color{
+    background-color: aqua;
+    background: linear-gradient(to bottom , red 1%, white);
+}
+.Index-Container{
+    transition: transform 0.1s ease;
+}
+.Index-Container:hover{
+    transform: scale(102%);
+
+}
+.Index-Container > h2{
+    color: #cb8282;
+}
