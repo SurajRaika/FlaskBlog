@@ -1,7 +1,10 @@
-from flask import Flask , render_template ,flash
-from form import RegistrationForm
+from flask import Flask , render_template , url_for ,flash , redirect
+from form import RegistrationForm , LoginForm
+
+
+
 app=Flask(__name__)
-app.config['SECRET_KEY'] = '1677626b7f3074acc0f04c9fdf62145a'
+app.config['SECRET_KEY'] = '1677626b7f3074acc0f04c9fdf6s145a'
 data = [{'author':'Suraj','title':'Not What you think in machine learning','content':'As we know guys that today everyyyyyyyy one is waitingggggg for some ......','date_posted':'April 20 2020'},{'author':'Ravi','title':'Running a love stry ','content':'so story begin with ','date_posted':'march 20 2020'}]
 
 @app.route("/")
@@ -13,19 +16,25 @@ def home():
 def about():
     return render_template("about.html")
 
-@app.route("/login")
+@app.route("/login", methods=['GET', 'POST'])
 def login():
-    return render_template("login.html" )
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
 
-@app.route("/registration",methods=['POST',"GET"])
+
+@app.route("/registration", methods=['GET','POST'])
 def registration():
     form=RegistrationForm()
-    if form.email.data == 'suajraika5sr@gmail.com' and form.password.data == "suajraika5sr@gmail.com":
-            flash(f' Logged In ','success')
-            return redirect(url_for("home")) 
-    else :
-            flash(f'Wrong Password or email ','danger')
-    return render_template("registration.html",form = form )
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('home'))
+    return render_template('registration.html', title='Register', form=form)
 
 if __name__=="__main__":
     app.run(debug=True)
