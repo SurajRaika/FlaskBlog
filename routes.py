@@ -3,7 +3,6 @@ from FlaskBlog import app , db ,bcrypt
 from FlaskBlog.form import RegistrationForm , LoginForm
 from FlaskBlog.models import User , Post
 from flask_login import login_user , current_user , logout_user , login_required
-
 data = [
     {'author':'Suraj','title':'Not What you think in machine learning','content':'As we know guys that today everyyyyyyyy one is waitingggggg for some ......','date_posted':'April 20 2020'}
     ,{'author':'Ravi','title':'Lorem, ipsum dolor.','content':'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt, dolorum.','date_posted':'march 20 2020'}
@@ -65,4 +64,6 @@ def logout():
 @app.route("/account")
 @login_required                       # decorator
 def account():
-    return render_template('account.html', title='Account')
+    curr_profile_picture=url_for('static',filename='profile_pic/'+ (current_user.image_file))
+    # print(current_user.username)
+    return render_template('account.html', title='Account',curr_profile_picture=curr_profile_picture)
