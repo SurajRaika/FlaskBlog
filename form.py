@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm    
+from flask_wtf.file import FileField , FileAllowed    
 from wtforms import StringField , EmailField ,PasswordField ,BooleanField , SubmitField  , IntegerField
 from wtforms.validators import DataRequired , Length , Email , EqualTo 
 
@@ -19,3 +20,7 @@ class AccountForm(FlaskForm):
     username=StringField('Name',validators=[DataRequired(),Length(min=2,max=20)])
     mobile_number=IntegerField("Mobile Number")
     email=EmailField('Email Address',validators=[DataRequired(),Length(min=4) ,Email()])
+    picture=FileField('Update Profile Picture',validators=[FileAllowed(['jpg','png',"gif","JPEG","PPM","TIFF","BMP"])])
+    
+    submit = SubmitField('Update')	
+
