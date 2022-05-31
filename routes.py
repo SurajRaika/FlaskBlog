@@ -80,8 +80,17 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-def delete_image(image):
-    pass
+def delete_image(myfile):
+    ## If file exists, delete it ##
+    if not "default" in myfile:    
+            myfile=os.path.join(app.root_path , 'static/profile_pic' ,myfile)
+            if os.path.isfile(myfile):
+                os.remove(myfile)
+            # else:    ## Show an error ##
+                # flash(f'{myfile} file not found!', 'danger')
+                # print("Error: %s file not found" % myfile)
+    # else:
+                # flash(f'{myfile} is default ', 'danger')
 
 def save_picture(form_picture ):
     random_hex=secrets.token_hex(8)
@@ -112,6 +121,7 @@ def account():
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
+            delete_image(current_user.image_file)
             current_user.image_file = picture_file
         
         if not current_user.email == form.email.data:
