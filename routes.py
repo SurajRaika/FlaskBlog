@@ -115,7 +115,6 @@ def save_picture(form_picture ):
     return picture_fn
 
 @app.route("/account", methods=['GET', 'POST'])
-@login_required                       # decorator
 def account():
     form=AccountForm()
     if form.validate_on_submit():
@@ -143,3 +142,10 @@ def account():
         form.username.data=current_user.username
         form.email.data=current_user.email
     return render_template('account.html', title='Account' , form=form)
+
+
+@app.route("/profile_picture", methods=['GET', 'POST'])
+@login_required                       # decorator
+def profile_picture():
+    form=AccountForm()
+    return render_template('profile_picture.html', title='Profile Picture' , form=form)
