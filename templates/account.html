@@ -1,21 +1,22 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% block stylesheet %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='page.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='account_page.css')}}">
 {% endblock stylesheet %}
 
 <div class="container rounded bg-white  wrapper_container_Account">
-    <form method="POST" action="" enctype="multipart/form-data" >
+    <form method="POST" action="" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
 
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img class="rounded-circle mt-5" width="150px" src="{{ curr_profile_picture }}">
+                    <img class="rounded-circle mt-5" width="150px" src="{{ curr_profile_picture }}"
+                        data-bs-toggle="modal" data-bs-target="#EditPhotoModal">
                     <span class="font-weight-bold">{{current_user.username}}</span>
                     <span class="text-black-50">{{current_user.email}}</span><span> </span>
                 </div>
-                
+
             </div>
             <div class="col-md-5 border-right">
                 <div class="p-3 py-5">
@@ -46,7 +47,7 @@
                             {% if form.email.error %}
 
                             {{form.email(class="form-control-lable form-control-lg is-invalid ")}}
-                            
+
                             {% for error in form.email.error %}
                             <div class="invalid-feedback">
                                 <span> error is {{ error}}</span>
@@ -70,9 +71,9 @@
                         {{form.picture.label()}}
                         {{form.picture(class='form-control-file')}}
                         {% if form.picture.errors %}
-                            {% for error in form.picture.errors %}
-                            <span class="text-danger" > Invalid Type  </span>
-                            {% endfor %}
+                        {% for error in form.picture.errors %}
+                        <span class="text-danger"> Invalid Type </span>
+                        {% endfor %}
                         {% endif %}
                     </div>
 
@@ -94,9 +95,32 @@
                             class="form-control" placeholder="additional details" value=""></div>
                 </div>
             </div>
+
+            <div class="modal fade" id="EditPhotoModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            ...
+                        </div>
+
+                        <div class="modal-footer">
+                            {{form.picture(class='form-control-file btn')}}
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
     </form>
 </div>
-</div>
-</div>
-</div>
+
 {% endblock content %}
