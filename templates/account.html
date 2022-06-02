@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% block content %}
+
 {% block stylesheet %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='page.css')}}">
 {% endblock stylesheet %}
@@ -12,7 +13,7 @@
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                     <img class="rounded-circle mt-5" width="150px" src="{{ curr_profile_picture }} "
-                    data-bs-toggle="modal" data-bs-target="#EditPhotoModal">
+                        data-bs-toggle="modal" data-bs-target="#EditPhotoModal">
                     <span class="font-weight-bold">{{current_user.username}}</span>
                     <span class="text-black-50">{{current_user.email}}</span><span> </span>
                 </div>
@@ -64,8 +65,8 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6"><label class="labels">Country</label><input type="text"
-                            class="form-control" placeholder="country" value=""></div>
-                            <div class="col-md-6"><label class="labels">State/Region</label><input type="text"
+                                class="form-control" placeholder="country" value=""></div>
+                        <div class="col-md-6"><label class="labels">State/Region</label><input type="text"
                                 class="form-control" value="" placeholder="state"></div>
                     </div>
 
@@ -85,7 +86,7 @@
                     <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text"
                             class="form-control" placeholder="experience" value=""></div> <br>
                     <div class="col-md-12"><label class="labels">Additional Details</label><input type="text"
-                        class="form-control" placeholder="additional details" value=""></div>
+                            class="form-control" placeholder="additional details" value=""></div>
                 </div>
             </div>
 
@@ -99,13 +100,13 @@
                             <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        
+
                         <div class="modal-body">
 
-                            <img class="previewImage  mt-5" width="100%">                            
-                            
+                            <img class="previewImage  mt-5" width="100%">
+
                         </div>
-                        
+
                         <div class="modal-footer">
                             {{form.picture(class='ImageInput form-control-file')}}
                             <span class="collapse inputPictureError text-danger"> Invalid Type </span>
@@ -113,7 +114,7 @@
                             {{form.Picture_save.label(class=" BooleanLogo btn btn-primary")}}
                             {{form.Picture_save(class="BooleanField collapse")}}
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -129,8 +130,8 @@
     var saveLogo = document.getElementsByClassName('BooleanLogo')[0];
     var ImageInput = document.getElementsByClassName('ImageInput')[0];
     var ImageError = document.getElementsByClassName('inputPictureError')[0];
-    
-    
+
+
     saveButton.addEventListener('change', check_save_button);
     function check_save_button() {
         if (saveButton.checked == true) {
@@ -156,11 +157,11 @@
 
         var ImageInput = document.getElementsByClassName('ImageInput')[0].files;
 
-        if (ImageInput.length > 0){
+        if (ImageInput.length > 0) {
             var fileReader = new FileReader();
-            fileReader.onload= function (event) {
+            fileReader.onload = function (event) {
 
-            document.getElementsByClassName('previewImage')[0].setAttribute("src",event.target.result);
+                document.getElementsByClassName('previewImage')[0].setAttribute("src", event.target.result);
             }
         }
         fileReader.readAsDataURL(ImageInput[0]);

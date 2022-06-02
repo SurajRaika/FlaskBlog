@@ -4,7 +4,7 @@ from PIL import Image
 import cv2
 from flask import Flask , render_template , url_for ,flash , redirect , request
 from FlaskBlog import app , db ,bcrypt
-from FlaskBlog.form import RegistrationForm , LoginForm , AccountForm
+from FlaskBlog.form import RegistrationForm , LoginForm , AccountForm ,PostForm
 from FlaskBlog.models import User , Post
 from flask_login import login_user , current_user , logout_user , login_required
 data = [
@@ -26,7 +26,9 @@ def inject_menu():
 
 @app.route("/")
 @app.route("/home")
+@login_required
 def home():
+    # Form_Post = PostForm()
     return render_template("home.html",title='Home',posts=data)
 
 @app.route("/about")
@@ -145,3 +147,6 @@ def account():
         form.username.data=current_user.username
         form.email.data=current_user.email
     return render_template('account.html', title='Account' , form=form)
+
+
+

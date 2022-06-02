@@ -1,0 +1,12 @@
+.posts{
+    width: 100%;
+    align-items: center;
+    display: flex;
+
+    justify-content: center;
+    flex-direction: column;
+}
+.Index-Container{
+    width:40%;
+    border-radius: 10PX;
+}

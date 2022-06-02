@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm    
 from flask_wtf.file import FileField , FileAllowed    
-from wtforms import StringField , EmailField ,PasswordField ,BooleanField , SubmitField  , IntegerField
+from wtforms import StringField , EmailField ,PasswordField ,BooleanField , SubmitField  , IntegerField ,TextAreaField
 from wtforms.validators import DataRequired , Length , Email , EqualTo 
 
 
@@ -24,3 +24,10 @@ class AccountForm(FlaskForm):
     Picture_save = BooleanField('Save')
     submit = SubmitField('Update')	
 
+class PostForm(FlaskForm):
+    title=StringField( 'Title' , validators=[DataRequired()] )
+    content = TextAreaField('Content' , validations = [DataRequired()])
+    content_image=FileField('Image Content',validators=[FileAllowed(['jpg','png',"gif","JPEG","PPM","TIFF","BMP"])])
+    submit = SubmitField('Post')
+    
+    # content
