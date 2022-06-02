@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% block stylesheet %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='account_page.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='page.css')}}">
 {% endblock stylesheet %}
 
 <div class="container rounded bg-white  wrapper_container_Account">
@@ -11,8 +11,8 @@
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img class="rounded-circle mt-5" width="150px" src="{{ curr_profile_picture }}"
-                        data-bs-toggle="modal" data-bs-target="#EditPhotoModal">
+                    <img class="rounded-circle mt-5" width="150px" src="{{ curr_profile_picture }} "
+                    data-bs-toggle="modal" data-bs-target="#EditPhotoModal">
                     <span class="font-weight-bold">{{current_user.username}}</span>
                     <span class="text-black-50">{{current_user.email}}</span><span> </span>
                 </div>
@@ -44,6 +44,7 @@
                         <div class="col-md-12"><label class="labels">Email ID</label>
 
                             <!-- <input type="text" class="form-control" placeholder="enter email id" value="{{current_user.email}}"> -->
+
                             {% if form.email.error %}
 
                             {{form.email(class="form-control-lable form-control-lg is-invalid ")}}
@@ -63,19 +64,11 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6"><label class="labels">Country</label><input type="text"
-                                class="form-control" placeholder="country" value=""></div>
-                        <div class="col-md-6"><label class="labels">State/Region</label><input type="text"
+                            class="form-control" placeholder="country" value=""></div>
+                            <div class="col-md-6"><label class="labels">State/Region</label><input type="text"
                                 class="form-control" value="" placeholder="state"></div>
                     </div>
-                    <div class="row mt-3">
-                        {{form.picture.label()}}
-                        {{form.picture(class='form-control-file')}}
-                        {% if form.picture.errors %}
-                        {% for error in form.picture.errors %}
-                        <span class="text-danger"> Invalid Type </span>
-                        {% endfor %}
-                        {% endif %}
-                    </div>
+
 
                     <div class="mt-5 text-center">
                         <div class="form-group">
@@ -92,14 +85,87 @@
                     <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text"
                             class="form-control" placeholder="experience" value=""></div> <br>
                     <div class="col-md-12"><label class="labels">Additional Details</label><input type="text"
-                            class="form-control" placeholder="additional details" value=""></div>
+                        class="form-control" placeholder="additional details" value=""></div>
                 </div>
             </div>
-            {% block account %}
-            {% endblock account %}
 
 
+            <div class="modal fade" id="EditPhotoModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        
+                        <div class="modal-body">
+
+                            <img class="previewImage  mt-5" width="100%">                            
+                            
+                        </div>
+                        
+                        <div class="modal-footer">
+                            {{form.picture(class='ImageInput form-control-file')}}
+                            <span class="collapse inputPictureError text-danger"> Invalid Type </span>
+                            <!-- <button type="button" class=" saveImage btn btn-primary">Save changes</button> -->
+                            {{form.Picture_save.label(class=" BooleanLogo btn btn-primary")}}
+                            {{form.Picture_save(class="BooleanField collapse")}}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
     </form>
-</div>
 
+</div>
+</div>
+</div>
+</div>
+<script>
+
+    var saveButton = document.getElementsByClassName('BooleanField')[0];
+    var saveLogo = document.getElementsByClassName('BooleanLogo')[0];
+    var ImageInput = document.getElementsByClassName('ImageInput')[0];
+    var ImageError = document.getElementsByClassName('inputPictureError')[0];
+    
+    
+    saveButton.addEventListener('change', check_save_button);
+    function check_save_button() {
+        if (saveButton.checked == true) {
+            if (!ImageInput.files[0].type.includes("image")) {
+                saveButton.checked = false
+                console.log(typeof (ImageInput.value));
+                // ImageInput.value=""
+                console.log(ImageInput.value);
+                ImageError.classList.remove('collapse')
+            } else {
+                saveLogo.style = "background-color: #0d2efd;"
+                ImageError.classList.add('collapse')
+            }
+        }
+        else {
+            saveLogo.style = "background-color: #0d6efd;"
+        }
+        console.log("changed");
+    }
+    ImageInput.addEventListener('change', function () {
+        saveButton.checked = false
+        saveLogo.style = "background-color: #0d6efd;"
+
+        var ImageInput = document.getElementsByClassName('ImageInput')[0].files;
+
+        if (ImageInput.length > 0){
+            var fileReader = new FileReader();
+            fileReader.onload= function (event) {
+
+            document.getElementsByClassName('previewImage')[0].setAttribute("src",event.target.result);
+            }
+        }
+        fileReader.readAsDataURL(ImageInput[0]);
+
+
+    });
+</script>
 {% endblock content %}

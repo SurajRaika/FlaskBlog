@@ -15,7 +15,8 @@ data = [
 
 @app.context_processor
 def inject_menu():
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and os.path.exists(os.path.join(app.root_path , 'static/profile_pic' ,current_user.image_file)):
+
         curr_profile_picture=url_for('static',filename='profile_pic/'+ (current_user.image_file))
     else:
         curr_profile_picture=url_for('static',filename='profile_pic/'+ 'default.jpg')
@@ -115,10 +116,11 @@ def save_picture(form_picture ):
     return picture_fn
 
 @app.route("/account", methods=['GET', 'POST'])
+@login_required 
 def account():
     form=AccountForm()
     if form.validate_on_submit():
-        if form.picture.data:
+        if form.picture.data and form.Picture_save.data:
             picture_file = save_picture(form.picture.data)
             delete_image(current_user.image_file)
             current_user.image_file = picture_file
@@ -136,16 +138,10 @@ def account():
                 flash(f'{form.username.data} registrated by another!', 'danger')
 
         db.session.commit()
+
         return redirect(url_for('account'))
     # elif request.method ==["GET"]:
     else:
         form.username.data=current_user.username
         form.email.data=current_user.email
     return render_template('account.html', title='Account' , form=form)
-
-
-@app.route("/profile_picture", methods=['GET', 'POST'])
-@login_required                       # decorator
-def profile_picture():
-    form=AccountForm()
-    return render_template('profile_picture.html', title='Profile Picture' , form=form)
