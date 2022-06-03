@@ -2,7 +2,7 @@ import secrets
 import os
 from PIL import Image
 import cv2
-from flask import Flask , render_template , url_for ,flash , redirect , request
+from flask import Flask , render_template , url_for ,flash , redirect , request ,abort
 from FlaskBlog import app , db ,bcrypt
 from FlaskBlog.form import RegistrationForm , LoginForm , AccountForm ,PostForm
 from FlaskBlog.models import User , Post
@@ -25,11 +25,22 @@ def inject_menu():
     return dict(curr_profile_picture=curr_profile_picture)
 
 @app.route("/")
-@app.route("/home")
+@app.route("/home" ,  methods=['GET', 'POST'])
 @login_required
 def home():
-    # Form_Post = PostForm()
-    return render_template("home.html",title='Home',posts=data)
+
+    Form_Post = PostForm()
+    if Form_Post.validate_on_submit():
+
+        post1=Post(title=Form_Post.title.data,content=Form_Post.content.data,user_id=current_user.id) 
+        db.session.add(post1) 
+        db.session.commit()
+
+        flash('Your post has been created !','success')
+        return redirect(url_for('home'))
+    print("check")
+    data=Post.query.all()
+    return render_template("home.html",title='Home',posts=data , Form_Post = Form_Post)
 
 @app.route("/about")
 def about():
@@ -150,3 +161,20 @@ def account():
 
 
 
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    # post=Post.query.get(post_id)
+    # let use another 
+    post=Post.query.get_or_404(post_id)
+    return render_template('post.html',title=post.title , post=post)
+
+
+
+@app.route("/post/<int:post_id>/update")
+def update_post(post_id):
+    # post=Post.query.get(post_id)
+    # let use another 
+    post=Post.query.get_or_404(post_id)
+    if not post.author == current_user:
+        abort(403)
+    return render_template('post.html',title=post.title , post=post)

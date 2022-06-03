@@ -10,3 +10,9 @@
     width:40%;
     border-radius: 10PX;
 }
+
+
+.post_title{
+    text-decoration: none;
+    color: rgb(201, 99, 99);
+}

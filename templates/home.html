@@ -7,44 +7,45 @@
 <div class="posts">
     <div class="container bg-light container-sm  ms-5 container  m-1 border Index-Container">
         <div class="row">
-            
+
             <div class="col-md-offset-2 width-100">
-                
-                <button type="button" class=" border-0 bg-light  h1" data-bs-toggle="collapse" data-bs-target="#demo">Create post</button>
-                <form id="demo" class="collapse" action="" method="POST">
-                    
+
+                <button type="button" class=" border-0 bg-light  h1" data-bs-toggle="collapse"
+                    data-bs-target="#demo">Create post</button>
+                <form id="demo" class="collapse" action="" method="POST" enctype="multipart/form-data">
+                    {{ Form_Post.hidden_tag() }}
+
                     <div class="form-group has-error">
-                        <label for="slug">Slug <span class="require">*</span> <small>(This field use in url path.)</small></label>
+                        <label for="slug">Slug <span class="require">*</span> <small>(This field use in url
+                                path.)</small></label>
                         <input type="text" class="form-control" name="slug" />
                         <span class="help-block">Field not entered!</span>
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="title">Title <span class="require">*</span></label>
-                        <input type="text" class="form-control" name="title" />
+                        {{Form_Post.title.label(class="")}}
+                        {{Form_Post.title(class="form-control")}}
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea rows="5" class="form-control" name="description" ></textarea>
+                        {{Form_Post.content.label(for="description")}}
+                        {{Form_Post.content(class="form-control" , rows="5")}}
                     </div>
-                    
-                    <div class="form-group">
+
+                    <!-- <div class="form-group">
                         <p><span class="require">*</span> - required fields</p>
-                    </div>
-                    
+                    </div> -->
+
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">
-                            Create
-                        </button>
-                        <button class="btn btn-default">
+                        {{Form_Post.submit(class="btn btn-primary")}}
+                        <button data-bs-toggle="collapse" data-bs-target="#demo" class="btn btn-default">
                             Cancel
                         </button>
                     </div>
                     
                 </form>
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -53,14 +54,23 @@
     {% for post in posts %}
     <div class=" bg-light container-sm  ms-5 container  m-1 border Index-Container">
         <div class="post-header">
-            <h5 class="d-inline  "> {{post.author}}</h5>
+            <img src="{{url_for('static',filename='profile_pic/'+ (post.author.image_file))}}" class="rounded-circle" height="40"
+            alt="Profile picture" loading="lazy" />
+            
+            <h5 class="d-inline  "> {{post.author.username}}</h5>
             <h6 class=" ms-3 d-inline">{{post.date_posted}}</h6>
 
         </div>
         <div class="post-body">
-            <p>{{post.title}}</p>
+            {% if post.author == current_user %}
+            <a class="article-title h3 post_title" href="{{url_for('post',post_id=post.id)}}">
+                {{post.title}}
+            </a>
+            {% else %}
+            <p class="article-title h3 post_title" >{{post.title}}</p>
+            {% endif %}
             <div>
-                <p>{{post.content}}</p>
+                <p class="article-content ">{{post.content}}</p>
             </div>
         </div>
         <div class="post-footer">

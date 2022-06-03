@@ -24,10 +24,11 @@ class AccountForm(FlaskForm):
     Picture_save = BooleanField('Save')
     submit = SubmitField('Update')	
 
+
+
 class PostForm(FlaskForm):
-    title=StringField( 'Title' , validators=[DataRequired()] )
-    content = TextAreaField('Content' , validations = [DataRequired()])
-    content_image=FileField('Image Content',validators=[FileAllowed(['jpg','png',"gif","JPEG","PPM","TIFF","BMP"])])
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
-    
+
     # content

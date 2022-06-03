@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='home.css')}}">
+{% endblock stylesheet %}
+
+<div class="posts">
+    <div class=" bg-light container-sm  ms-5 container  m-1 border Index-Container">
+        <div class="post-header">
+            <img src="{{url_for('static',filename='profile_pic/'+ (post.author.image_file))}}" class="rounded-circle" height="40"
+            alt="Profile picture" loading="lazy" />
+            
+            <h5 class="d-inline  "> {{post.author.username}}</h5>
+            <h6 class=" ms-3 d-inline">{{post.date_posted}}</h6>
+
+        </div>
+        <div class="post-body">
+            <p class="article-title " >{{post.title}}</p>
+            <div>
+                <p class="article-content ">{{post.content}}</p>
+            </div>
+        </div>
+        <div class="post-footer">
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
