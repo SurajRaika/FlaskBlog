@@ -11,9 +11,10 @@
             <div class="col-md-offset-2 width-100">
 
                 <button type="button" class=" border-0 bg-light  h1" data-bs-toggle="collapse"
-                    data-bs-target="#demo">Create post</button>
+                    data-bs-target="#demo">{{legend_title}}</button>
                 <form id="demo" class="collapse" action="" method="POST" enctype="multipart/form-data">
                     {{ Form_Post.hidden_tag() }}
+                    <fieldset class="form-group  ">
 
                     <div class="form-group has-error">
                         <label for="slug">Slug <span class="require">*</span> <small>(This field use in url
@@ -35,9 +36,9 @@
                     <!-- <div class="form-group">
                         <p><span class="require">*</span> - required fields</p>
                     </div> -->
-
+                </fieldset>
                     <div class="form-group">
-                        {{Form_Post.submit(class="btn btn-primary")}}
+                        {{ Form_Post.submit(class="btn btn-primary") }}
                         <button data-bs-toggle="collapse" data-bs-target="#demo" class="btn btn-default">
                             Cancel
                         </button>
@@ -59,16 +60,29 @@
             
             <h5 class="d-inline  "> {{post.author.username}}</h5>
             <h6 class=" ms-3 d-inline">{{post.date_posted}}</h6>
+            <a type="button" class="btn post_menu  " data-bs-toggle="dropdown" >
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                </svg>
+            </a>
+            <ul class="dropdown-menu">
+                {% if post.author == current_user %}
+                <li><a class="dropdown-item" href="{{url_for('home',post_id=post.id)}}">Update</a></li>
+                <li><a class="dropdown-item" href="#">Delete</a></li>
+                {% endif %}
+                <li><a class="dropdown-item" href="#">Follow</a></li>
+                <li><a class="dropdown-item" href="#">Copy link</a></li>
+                <li><a class="dropdown-item" href="#">Block User</a></li>
+                <li><a class="dropdown-item" href="#">Save Post</a></li>    
+              </ul>
 
         </div>
         <div class="post-body">
-            {% if post.author == current_user %}
+
             <a class="article-title h3 post_title" href="{{url_for('post',post_id=post.id)}}">
                 {{post.title}}
             </a>
-            {% else %}
-            <p class="article-title h3 post_title" >{{post.title}}</p>
-            {% endif %}
             <div>
                 <p class="article-content ">{{post.content}}</p>
             </div>

@@ -26,21 +26,38 @@ def inject_menu():
 
 @app.route("/")
 @app.route("/home" ,  methods=['GET', 'POST'])
+@app.route("/post/<int:post_id>/update",  methods=['GET', 'POST'])
 @login_required
-def home():
-
+def home(post_id=None):
     Form_Post = PostForm()
-    if Form_Post.validate_on_submit():
+    legend_title="Create Post"
 
-        post1=Post(title=Form_Post.title.data,content=Form_Post.content.data,user_id=current_user.id) 
-        db.session.add(post1) 
-        db.session.commit()
+    if not post_id==None:
+        legend_title="Update Post"
+        post=Post.query.get_or_404(post_id)
+        if not post.author == current_user:
+            abort(403)
+        if Form_Post.validate_on_submit():
+            post.title=Form_Post.title.data
+            post.content=Form_Post.content.data
+            db.session.commit()
+            flash(f"updated","success")  
+            return redirect(url_for('home'))
 
-        flash('Your post has been created !','success')
-        return redirect(url_for('home'))
-    print("check")
+        elif request.method == 'GET' :
+            Form_Post.title.data=post.title
+            Form_Post.content.data=post.content
+
+    else:
+        if Form_Post.validate_on_submit():
+            post1=Post(title=Form_Post.title.data,content=Form_Post.content.data,user_id=current_user.id) 
+            db.session.add(post1) 
+            db.session.commit()
+
+            flash('Your post has been created !','success')
+            return redirect(url_for('home'))
     data=Post.query.all()
-    return render_template("home.html",title='Home',posts=data , Form_Post = Form_Post)
+    return render_template("home.html",title='Home',posts=data , Form_Post = Form_Post,legend_title=legend_title)
 
 @app.route("/about")
 def about():
@@ -170,11 +187,11 @@ def post(post_id):
 
 
 
-@app.route("/post/<int:post_id>/update")
-def update_post(post_id):
-    # post=Post.query.get(post_id)
-    # let use another 
-    post=Post.query.get_or_404(post_id)
-    if not post.author == current_user:
-        abort(403)
-    return render_template('post.html',title=post.title , post=post)
+# @app.route("/post/<int:post_id>/update")
+# def update_post(post_id):
+#     # post=Post.query.get(post_id)
+#     # let use another 
+#     post=Post.query.get_or_404(post_id)
+#     if not post.author == current_user:
+#         abort(403)
+#     return render_template('post.html',title=post.title , post=post)

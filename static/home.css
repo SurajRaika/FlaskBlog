@@ -16,3 +16,6 @@
     text-decoration: none;
     color: rgb(201, 99, 99);
 }
+.post_menu{
+    float: right;
+}
