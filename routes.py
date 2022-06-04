@@ -30,10 +30,10 @@ def inject_menu():
 @login_required
 def home(post_id=None):
     Form_Post = PostForm()
-    legend_title="Create Post"
+    legend_title_and_Post_Form=["Create Post",'collapse']
 
     if not post_id==None:
-        legend_title="Update Post"
+        legend_title_and_Post_Form=["Update Post",""]
         post=Post.query.get_or_404(post_id)
         if not post.author == current_user:
             abort(403)
@@ -43,7 +43,6 @@ def home(post_id=None):
             db.session.commit()
             flash(f"updated","success")  
             return redirect(url_for('home'))
-
         elif request.method == 'GET' :
             Form_Post.title.data=post.title
             Form_Post.content.data=post.content
@@ -57,7 +56,7 @@ def home(post_id=None):
             flash('Your post has been created !','success')
             return redirect(url_for('home'))
     data=Post.query.all()
-    return render_template("home.html",title='Home',posts=data , Form_Post = Form_Post,legend_title=legend_title)
+    return render_template("home.html",title='Home',posts=data , Form_Post = Form_Post,legend_title_and_Post_Form=legend_title_and_Post_Form)
 
 @app.route("/about")
 def about():

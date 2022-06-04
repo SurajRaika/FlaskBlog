@@ -11,8 +11,8 @@
             <div class="col-md-offset-2 width-100">
 
                 <button type="button" class=" border-0 bg-light  h1" data-bs-toggle="collapse"
-                    data-bs-target="#demo">{{legend_title}}</button>
-                <form id="demo" class="collapse" action="" method="POST" enctype="multipart/form-data">
+                    data-bs-target="#demo">{{legend_title_and_Post_Form[0]}}</button>
+                <form id="demo" class="{{legend_title_and_Post_Form[1]}}" action="" method="POST" enctype="multipart/form-data">
                     {{ Form_Post.hidden_tag() }}
                     <fieldset class="form-group  ">
 
