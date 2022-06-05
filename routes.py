@@ -186,11 +186,12 @@ def post(post_id):
 
 
 
-# @app.route("/post/<int:post_id>/update")
-# def update_post(post_id):
-#     # post=Post.query.get(post_id)
-#     # let use another 
-#     post=Post.query.get_or_404(post_id)
-#     if not post.author == current_user:
-#         abort(403)
-#     return render_template('post.html',title=post.title , post=post)
+@app.route("/post/<int:post_id>/Delete")
+def Delete(post_id):
+    # let use another 
+    post=Post.query.get_or_404(post_id)
+    if not post.author == current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('home'))

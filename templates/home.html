@@ -69,7 +69,7 @@
             <ul class="dropdown-menu">
                 {% if post.author == current_user %}
                 <li><a class="dropdown-item" href="{{url_for('home',post_id=post.id)}}">Update</a></li>
-                <li><a class="dropdown-item" href="#">Delete</a></li>
+                <li><a class="dropdown-item" href="{{url_for('Delete',post_id=post.id)}}">Delete</a></li>
                 {% endif %}
                 <li><a class="dropdown-item" href="#">Follow</a></li>
                 <li><a class="dropdown-item" href="#">Copy link</a></li>
