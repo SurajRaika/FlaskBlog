@@ -7,3 +7,10 @@ if (mess) {
     }, 30000); // <-- time in milliseconds
     
 }
+
+
+
+function PutDefault_image() {
+    // document.getElementsByClassName("Profile_picture_defalut")[0].attributes['src']
+    
+}

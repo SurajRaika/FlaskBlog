@@ -55,8 +55,9 @@
     {% for post in posts %}
     <div class=" bg-light container-sm  ms-5 container  m-1 border Index-Container">
         <div class="post-header">
-            <img src="{{url_for('static',filename='profile_pic/'+ (post.author.image_file))}}" class="rounded-circle" height="40"
-            alt="Profile picture" loading="lazy" />
+            
+            <img src="{{url_for('static',filename='profile_pic/'+ (post.author.image_file))}}" onerror='this.onerror=null; this.src="https://i.pinimg.com/236x/fa/65/2d/fa652d59cd452b17321ee485ec983bdd.jpg"'  class="rounded-circle" height="40"
+             loading="lazy" />
             
             <h5 class="d-inline  "> {{post.author.username}}</h5>
             <h6 class=" ms-3 d-inline">{{post.date_posted}}</h6>
@@ -69,7 +70,9 @@
             <ul class="dropdown-menu">
                 {% if post.author == current_user %}
                 <li><a class="dropdown-item" href="{{url_for('home',post_id=post.id)}}">Update</a></li>
-                <li><a class="dropdown-item" href="{{url_for('Delete',post_id=post.id)}}">Delete</a></li>
+                <li><a
+                    type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"
+                     class="dropdown-item" id="{{post.id}}"  onclick="document.getElementById('Delete_Model').attributes['href'].value=`/post/${this.id}/Delete`">Delete</a></li>
                 {% endif %}
                 <li><a class="dropdown-item" href="#">Follow</a></li>
                 <li><a class="dropdown-item" href="#">Copy link</a></li>
@@ -94,6 +97,22 @@
 
     {% endfor %}
 </div>
-
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">User Alert</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you really want to delete this post?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <a id="Delete_Model" type="" href="" class="btn btn-primary">Save changes</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock content %}

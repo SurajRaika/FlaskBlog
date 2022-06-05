@@ -16,7 +16,6 @@ data = [
 @app.context_processor
 def inject_menu():
     if current_user.is_authenticated and os.path.exists(os.path.join(app.root_path , 'static/profile_pic' ,current_user.image_file)):
-
         curr_profile_picture=url_for('static',filename='profile_pic/'+ (current_user.image_file))
     else:
         curr_profile_picture=url_for('static',filename='profile_pic/'+ 'default.jpg')
@@ -56,6 +55,7 @@ def home(post_id=None):
             flash('Your post has been created !','success')
             return redirect(url_for('home'))
     data=Post.query.all()
+    
     return render_template("home.html",title='Home',posts=data , Form_Post = Form_Post,legend_title_and_Post_Form=legend_title_and_Post_Form)
 
 @app.route("/about")
