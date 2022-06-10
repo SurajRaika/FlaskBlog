@@ -7,10 +7,13 @@ from FlaskBlog import app , db ,bcrypt
 from FlaskBlog.form import RegistrationForm , LoginForm , AccountForm ,PostForm
 from FlaskBlog.models import User , Post
 from flask_login import login_user , current_user , logout_user , login_required
-data = [
-    {'author':'Suraj','title':'Not What you think in machine learning','content':'As we know guys that today everyyyyyyyy one is waitingggggg for some ......','date_posted':'April 20 2020'}
-    ,{'author':'Ravi','title':'Lorem, ipsum dolor.','content':'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt, dolorum.','date_posted':'march 20 2020'}
-    ,{'author':'John Wick','title':'Ullam esse mollitia.','content':'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam esse mollitia, placeat rem natus molestias aliquid odio dicta sequi nisi optio sapiente quos.','date_posted':'march 20 2020'}]
+
+
+# variables
+No_of_post_in_1_page=5 
+
+
+
 
 
 @app.context_processor
@@ -54,7 +57,9 @@ def home(post_id=None):
 
             flash('Your post has been created !','success')
             return redirect(url_for('home'))
-    data=Post.query.all()
+
+    page=request.args.get('page',1,type=int)
+    data=Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=No_of_post_in_1_page)
     
     return render_template("home.html",title='Home',posts=data , Form_Post = Form_Post,legend_title_and_Post_Form=legend_title_and_Post_Form)
 
@@ -195,3 +200,13 @@ def Delete(post_id):
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for('home'))
+
+
+
+
+@app.route("/user/<string:username>")
+def User_posts(username):
+    user=User.query.filter_by(username=username).first_or_404()
+    page=request.args.get('page',1,type=int)
+    data=Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page,per_page=No_of_post_in_1_page)
+    return render_template("user_post.html",title='My Post',posts=data)

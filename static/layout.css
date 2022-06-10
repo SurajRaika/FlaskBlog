@@ -3,6 +3,12 @@
  margin: 0;
  padding: 0;
 }
+
+.clean{
+    white-space: pre;
+}
+
+
 .nav-color{
     background-color: aqua;
     background: linear-gradient(to bottom , red 1%, white);
