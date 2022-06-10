@@ -19,7 +19,6 @@ class LoginForm(FlaskForm):
 class AccountForm(FlaskForm):
     username=StringField('Name',validators=[DataRequired(),Length(min=2,max=20)])
     mobile_number=IntegerField("Mobile Number")
-    email=EmailField('Email Address',validators=[DataRequired(),Length(min=4) ,Email()])
     picture=FileField('Update Profile Picture',validators=[FileAllowed(['jpg','png',"gif","JPEG","PPM","TIFF","BMP"])])
     Picture_save = BooleanField('Save')
     submit = SubmitField('Update')	

@@ -159,11 +159,6 @@ def account():
             delete_image(current_user.image_file)
             current_user.image_file = picture_file
         
-        if not current_user.email == form.email.data:
-            if not (User.query.filter_by(email=form.email.data).first()):
-                current_user.email = form.email.data
-            else:
-                    flash(f'{form.email.data} registrated by another !', 'danger')
 
         if not current_user.username == form.username.data:
             if not (User.query.filter_by(username=form.username.data).first()):
@@ -177,7 +172,6 @@ def account():
     # elif request.method ==["GET"]:
     else:
         form.username.data=current_user.username
-        form.email.data=current_user.email
     return render_template('account.html', title='Account' , form=form)
 
 

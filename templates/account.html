@@ -42,24 +42,6 @@
                     <div class="row mt-3">
                         <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text"
                                 class="form-control" placeholder="enter phone number" value=""></div>
-                        <div class="col-md-12"><label class="labels">Email ID</label>
-
-                            <!-- <input type="text" class="form-control" placeholder="enter email id" value="{{current_user.email}}"> -->
-
-                            {% if form.email.error %}
-
-                            {{form.email(class="form-control-lable form-control-lg is-invalid ")}}
-
-                            {% for error in form.email.error %}
-                            <div class="invalid-feedback">
-                                <span> error is {{ error}}</span>
-                            </div> -->
-                            {% endfor %} -->
-                            {% else %}
-                            {{form.email(class=" form-control form-control-lg")}}
-                            {% endif %}
-
-                        </div>
                         <div class="col-md-12"><label class="labels">Education</label><input type="text"
                                 class="form-control" placeholder="education" value=""></div>
                     </div>
