@@ -3,11 +3,11 @@ import os
 from PIL import Image
 import cv2
 from flask import Flask , render_template , url_for ,flash , redirect , request ,abort
-from FlaskBlog import app , db ,bcrypt
-from FlaskBlog.form import RegistrationForm , LoginForm , AccountForm ,PostForm
+from FlaskBlog import app , db ,bcrypt ,mail
+from FlaskBlog.form import RegistrationForm , LoginForm , AccountForm ,PostForm , change_password_Form , ConfirmPossword
 from FlaskBlog.models import User , Post
 from flask_login import login_user , current_user , logout_user , login_required
-
+from flask_mail import Message
 
 # variables
 No_of_post_in_1_page=5 
@@ -204,3 +204,49 @@ def User_posts(username):
     page=request.args.get('page',1,type=int)
     data=Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page,per_page=No_of_post_in_1_page)
     return render_template("user_post.html",title='My Post',posts=data)
+
+
+
+
+def sendMail(user):
+    token=user.get_token()
+    msg=Message('Password Reset Request',recipients=[user.email],sender='http://127.0.0.1:5000/')
+    msg.body=f''' 
+    Reset your Possword 
+        {url_for('Reset_token',token=token ,_external=True)}
+     '''
+    mail.send(msg)
+
+@app.route("/account/confirm-email-password_Reset/", methods=['GET', 'POST'])
+def Reset_password_Confirm_Email():
+
+    form=ConfirmPossword()
+    if form.validate_on_submit():
+        user=User.query.filter_by(email=form.email.data).first()
+        if user:
+            sendMail(user)
+            flash(f'Password Reset link is sended to your {form.email.data} ', 'success')
+        else:
+            flash(f'{form.email.data} is not been registered', 'danger')
+
+    return render_template("Reset_password_Confirm_Email.html",title='Confirm paoasword',form=form)
+
+
+
+
+@app.route("/account/password-reset/<token>", methods=['GET', 'POST'])
+def Reset_token(token):
+    user=User.varify_token(token)
+    if user is None:
+        flash(  ' that is invalid token or expired '  , 'danger')
+        return redirect(url_for('login'))
+    else:
+        flash(  f' Hy {user.email} '  , 'success')
+        form=change_password_Form()
+        if form.validate_on_submit():
+            hashed_password=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            user.password = hashed_password
+            db.session.commit()
+            return redirect(url_for('login'))
+    return render_template("Reset_password.html",title='Reset Password',form=form)
+

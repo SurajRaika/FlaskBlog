@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm    
 from flask_wtf.file import FileField , FileAllowed    
 from wtforms import StringField , EmailField ,PasswordField ,BooleanField , SubmitField  , IntegerField ,TextAreaField
-from wtforms.validators import DataRequired , Length , Email , EqualTo 
+from wtforms.validators import DataRequired , Length , Email , EqualTo , ValidationError
 
 
 
@@ -9,7 +9,7 @@ class RegistrationForm(FlaskForm):
     username=StringField('Name',validators=[DataRequired(),Length(min=2,max=20)])
     email=EmailField('Email Address',validators=[DataRequired(),Length(min=4) ,Email()])
     password=PasswordField('Password',validators=[DataRequired(),Length(min=4)])
-    confirm_password=PasswordField('Password',validators=[DataRequired(),Length(min=4) ,EqualTo('password') ])
+    confirm_password=PasswordField('Confirm Password',validators=[DataRequired(),Length(min=4) ,EqualTo('password') ])
     submit = SubmitField('Sign Up')
 class LoginForm(FlaskForm):
     email=EmailField('Email Address',validators=[DataRequired(),Length(min=4) ,Email()])
@@ -29,5 +29,13 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[])
     submit = SubmitField('Post')
+class change_password_Form(FlaskForm):
+    password=PasswordField('Password',validators=[DataRequired(),Length(min=4)])
+    confirm_password=PasswordField('Confirm Password',validators=[DataRequired(),Length(min=4) ,EqualTo('password') ])
+    submit = SubmitField('Update')
 
-    # content
+class ConfirmPossword(FlaskForm):
+    email=EmailField('Email Address',validators=[DataRequired(),Length(min=4) ,Email()])
+    submit = SubmitField('Update')
+
+
