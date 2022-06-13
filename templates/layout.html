@@ -42,10 +42,10 @@
                 <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item ">
-                        <a class="nav-link" href="{{ url_for('home') }}">BLog</a>
+                        <a class="nav-link" href="{{ url_for('main.home') }}">BLog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                        <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
                     </li>
                     
                 </ul>
@@ -56,8 +56,8 @@
                 <div class=" First_Visit ">
                     {% if current_user.is_authenticated %}
                     {% else %}
-                    <a href="{{ url_for('registration') }}" class="">Sign In</a>
-                    <a href="{{ url_for('login') }}" class="m-3">Log In</a>
+                    <a href="{{ url_for('users.registration') }}" class="">Sign In</a>
+                    <a href="{{ url_for('users.login') }}" class="m-3">Log In</a>
                     {% endif %}
                 </div>
             </div>
@@ -77,10 +77,10 @@
                     <!-- Dropdown button -->
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="{{ url_for('account') }}">Account</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('users.account') }}">Account</a></li>
                     <li><a class="dropdown-item" href="#">Setting</a></li>
                     {% if current_user.is_authenticated %}
-                    <li><a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('users.logout') }}">Log Out</a></li>
 
                     {% endif %}
                 </ul>

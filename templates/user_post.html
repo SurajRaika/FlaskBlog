@@ -23,7 +23,7 @@
             </a>
             <ul class="dropdown-menu">
                 {% if post.author == current_user %}
-                <li><a class="dropdown-item" href="{{url_for('home',post_id=post.id)}}">Update</a></li>
+                <li><a class="dropdown-item" href="{{url_for('main.home',post_id=post.id)}}">Update</a></li>
                 <li><a type="button" data-bs-toggle="modal" data-bs-target="#target_delete_post" class="dropdown-item"
                         id="{{post.id}}"
                         onclick="document.getElementById('Delete_Model').attributes['href'].value=`/post/${this.id}/Delete`">Delete</a>
@@ -38,7 +38,7 @@
         </div>
         <div class="post-body">
 
-            <a class="article-title h5 post_title" href="{{url_for('post',post_id=post.id)}}">
+            <a class="article-title h5 post_title" href="{{url_for('posts.post',post_id=post.id)}}">
                 {{post.title}}
             </a>
             <div>
@@ -57,9 +57,9 @@
         {% for page_num in posts.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
         {% if page_num %}
         {% if posts.page==page_num %}
-        <a class="btn btn-outline-info bg-primary mb-3" href="{{url_for('User_posts',page=page_num,username=posts.items[0].author.username)}}">{{page_num}}</a>
+        <a class="btn btn-outline-info bg-primary mb-3" href="{{url_for('users.User_posts',page=page_num,username=posts.items[0].author.username)}}">{{page_num}}</a>
         {% else %}
-        <a class="btn btn-outline-info mb-3" href="{{url_for('User_posts',page=page_num,username=posts.items[0].author.username)}}">{{page_num}}</a>
+        <a class="btn btn-outline-info mb-3" href="{{url_for('users.User_posts',page=page_num,username=posts.items[0].author.username)}}">{{page_num}}</a>
         {% endif %}
         {% else %}
         ...

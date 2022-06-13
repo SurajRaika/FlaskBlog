@@ -1,7 +1,13 @@
+
 from flask_wtf import FlaskForm    
 from flask_wtf.file import FileField , FileAllowed    
-from wtforms import StringField , EmailField ,PasswordField ,BooleanField , SubmitField  , IntegerField ,TextAreaField
-from wtforms.validators import DataRequired , Length , Email , EqualTo , ValidationError
+from wtforms import StringField , EmailField ,PasswordField ,BooleanField , SubmitField  , IntegerField 
+from wtforms.validators import DataRequired , Length , Email , EqualTo 
+
+
+
+
+
 
 
 
@@ -25,10 +31,7 @@ class AccountForm(FlaskForm):
 
 
 
-class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[])
-    submit = SubmitField('Post')
+    
 class change_password_Form(FlaskForm):
     password=PasswordField('Password',validators=[DataRequired(),Length(min=4)])
     confirm_password=PasswordField('Confirm Password',validators=[DataRequired(),Length(min=4) ,EqualTo('password') ])

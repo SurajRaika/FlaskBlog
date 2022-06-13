@@ -14,16 +14,22 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db=SQLAlchemy(app) 
 bcrypt=Bcrypt(app)
 Login_manager=LoginManager(app)
-Login_manager.login_view='login'
+Login_manager.login_view='users.login'
 Login_manager.login_message_category='info'
 
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT']=587
 app.config['MAIL_USE_TLS']=True
-app.config['MAIL_USERNAME']='surajraika5sr@gmail.com'
-app.config['MAIL_PASSWORD']='YJA6hdnu2_iy5Tu'
+app.config['MAIL_USERNAME']='suajraika5sr@gmail.com'
+app.config['MAIL_PASSWORD']='come15in3sonu2004'
 
 mail=Mail(app)
 
-from FlaskBlog import routes
+from FlaskBlog.users.routes import users
+from FlaskBlog.posts.routes import posts
+from FlaskBlog.main.routes import main
+
+app.register_blueprint(users)
+app.register_blueprint(posts)
+app.register_blueprint(main)
