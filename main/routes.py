@@ -1,7 +1,7 @@
-from flask import Blueprint , render_template , request , url_for , abort , flash , redirect
+from flask import Blueprint , render_template , request , url_for , abort , flash , redirect , current_app
 from FlaskBlog.models import Post
 import os
-from FlaskBlog import  db 
+from FlaskBlog import  db
 from FlaskBlog.posts.forms import PostForm
 from flask_login import  current_user  , login_required
 No_of_post_in_1_page=5 
@@ -11,10 +11,10 @@ main=Blueprint("main", __name__)
 
 
 
-@main.context_processor
 def inject_menu():
-    if current_user.is_authenticated and os.path.exists(os.path.join(main.root_path , 'static/profile_pic' ,current_user.image_file)):
+    if current_user.is_authenticated and os.path.exists(os.path.join(current_app.root_path , 'static/profile_pic' ,current_user.image_file)):
         curr_profile_picture=url_for('static',filename='profile_pic/'+ (current_user.image_file))
+        print("exits")
     else:
         curr_profile_picture=url_for('static',filename='profile_pic/'+ 'default.jpg')
 
@@ -22,9 +22,7 @@ def inject_menu():
     return dict(curr_profile_picture=curr_profile_picture)
 
 
-
-
-
+inject_menu=main.context_processor(inject_menu)
 
 
 

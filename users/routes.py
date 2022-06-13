@@ -3,8 +3,11 @@ from FlaskBlog import  db ,bcrypt
 from FlaskBlog.users.forms import RegistrationForm , LoginForm , AccountForm , change_password_Form , ConfirmPossword
 from FlaskBlog.models import User , Post
 from flask_login import login_user , current_user , logout_user , login_required
-from FlaskBlog.users.utils import save_picture , delete_image
+from FlaskBlog.users.utils import save_picture , delete_image ,sendMail
+from FlaskBlog.main.routes import  inject_menu
+
 # variables
+
 
 
 
@@ -13,7 +16,7 @@ from FlaskBlog.users.utils import save_picture , delete_image
 users=Blueprint("users", __name__)
 
 
-
+inject_menu=users.context_processor(inject_menu)
 
 
 @users.route("/login", methods=['GET', 'POST'])
@@ -111,7 +114,7 @@ def Reset_password_Confirm_Email():
     if form.validate_on_submit():
         user=User.query.filter_by(email=form.email.data).first()
         if user:
-            # sendMail(user)
+            sendMail(user)
             # flash(f'Password Reset link is sended to your {form.email.data} ', 'success')
             flash(f'this service is stopped temporary ', 'danger')
         else:
@@ -123,7 +126,7 @@ def Reset_password_Confirm_Email():
 
 
 @users.route("/account/password-reset/<token>", methods=['GET', 'POST'])
-def Reset_token(token):
+def Reset_token(token): 
     user=User.varify_token(token)
     if user is None:
         flash(  ' that is invalid token or expired '  , 'danger')

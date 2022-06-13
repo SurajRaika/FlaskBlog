@@ -3,8 +3,8 @@
 import secrets
 import os
 from PIL import Image
-from flask import  url_for 
-from FlaskBlog import app  ,mail
+from flask import  url_for ,current_app
+from FlaskBlog import  mail
 from flask_mail import Message
 
 # variables
@@ -19,7 +19,7 @@ from flask_mail import Message
 def delete_image(myfile):
     ## If file exists, delete it ##
     if not "default" in myfile:    
-            myfile=os.path.join(app.root_path , 'static/profile_pic' ,myfile)
+            myfile=os.path.join(current_app.root_path , 'static/profile_pic' ,myfile)
             if os.path.isfile(myfile):
                 os.remove(myfile)
             # else:    ## Show an error ##
@@ -33,7 +33,7 @@ def save_picture(form_picture ):
     
     _ , f_ext=os.path.splitext(form_picture.filename)
     picture_fn=random_hex + f_ext
-    picture_path = os.path.join(app.root_path , 'static/profile_pic' ,picture_fn)
+    picture_path = os.path.join(current_app.root_path , 'static/profile_pic' ,picture_fn)
     image=Image.open(form_picture)
     width , height=image.size
     w1=(25/100)*width

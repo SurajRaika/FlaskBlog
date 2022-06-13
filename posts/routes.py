@@ -1,8 +1,12 @@
 from flask import   render_template , url_for , redirect  ,abort , Blueprint
-from FlaskBlog import app , db ,bcrypt ,mail
+from FlaskBlog import  db 
 from FlaskBlog.posts.forms import PostForm 
 from FlaskBlog.models import  Post
 from flask_login import  current_user
+from FlaskBlog.main.routes import  inject_menu
+
+
+
 
 # variables
 
@@ -13,6 +17,7 @@ from flask_login import  current_user
 
 posts=Blueprint("posts", __name__)
 
+inject_menu=posts.context_processor(inject_menu)
 
 
 
