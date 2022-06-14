@@ -3,6 +3,7 @@ class Config:
         
     SECRET_KEY = '1677626b7f3074acc0f04c9fdf6s145a'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
     MAIL_SERVER='smtp.gmail.com'
     MAIL_PORT=587
     MAIL_USE_TLS=True
